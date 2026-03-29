@@ -3,5 +3,19 @@
 {% block content %}
 {% load static %}
 
+<h2>Events</h2>
+<a href="#">Create Event</a>
+<ul>
+    {% for event in events %}
+        <li>
+            <a href="#">{{ event.title }}</a>
+            {% if event.weather_required %}
+            if the weather is {{ event.weather_required }}
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>No events yet.</li>
+    {% endfor %}
+</ul>
 
 {% endblock %}
