@@ -6,12 +6,21 @@
 <h2>Events</h2>
 <a href="#">Create Event</a>
 <ul>
-    {% for event in events %}
+    {% for day in events_by_day %}
         <li>
-            <a href="#">{{ event.title }}</a>
-            {% if event.weather_required %}
-            if the weather is {{ event.weather_required }}
-            {% endif %}
+            <h2>{{ day.day }}</h2>
+            <ul>
+                {% for item in day.items %}
+                    <li>
+                        <strong>{{ item.title }}</strong>
+                        {% if item.weather_required %}
+                        if the weather is {{ item.weather_required }}
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <li>No events for this day.</li>
+                {% endfor %}
+            </ul>
         </li>
     {% empty %}
         <li>No events yet.</li>
