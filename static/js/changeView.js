@@ -47,18 +47,23 @@ document.addEventListener("DOMContentLoaded", function() {
     const listViewButton = document.getElementById("list-view");
     const contentContainer = document.getElementById("content-container");
 
-    async function getListView() {
-        try {
+    class ContentData {
+        constructor(viewType) {
+            this.viewType = viewType;
+        }
+
+        async get() {
+            try {
             // Send AJAX POST request
-            const response = await fetch("api/get-list-view", {
+            const response = await fetch(`api/get-${this.viewType}-view`, {
                 method: "GET",
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",  // Indicate AJAX request
                 },
             });
- 
+
             const data = await response.json();
- 
+
             if (data.success) {
                 // Update comment list with new HTML
                 contentContainer.innerHTML = data.html;
@@ -69,7 +74,26 @@ document.addEventListener("DOMContentLoaded", function() {
         } catch (error) {
             console.error("AJAX Error:", error);
         }
+        }
     }
-    
+
+    async function getListView() {
+        try {
+            let getData = new ContentData('list')
+            getData.get()
+        } catch (error) {
+            console.log("oopsssssssss")
+        }
+    }
+
+    // async function getCalendarView() {
+    //     try {
+    //         let getData = new ContentData('calendar')
+    //         getData.get()
+    //     } catch (error) {
+    //         console.log("oopsssssssss")
+    //     }
+    // }
     listViewButton.addEventListener("click", getListView)
+    // calendarViewButton.addEventListener("click", getCalendarView)
 });

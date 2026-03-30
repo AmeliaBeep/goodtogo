@@ -53,7 +53,7 @@ class EventListView(EventListLookupMixin, View):
         events_by_day = self.build_events_by_day()
         events_by_day_html = render_to_string(
             "calendarapp/includes/event_list.html",
-            {"events_by_day": events_by_day}  # Pass comments to the fragment
+            {"events_by_day": events_by_day}  # Pass events to the fragment
         )
 
         # Return HTML and success status
@@ -62,3 +62,5 @@ class EventListView(EventListLookupMixin, View):
             "html": events_by_day_html
         })
 
+class EventCalendarView(EventListLookupMixin, View):
+    pass
