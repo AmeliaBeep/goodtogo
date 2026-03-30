@@ -1,0 +1,15 @@
+{% for day in events_by_day %}
+    <div class="day">
+        <h2>{{ day.day }}</h2>
+        {% for event in day.events %}
+            <div class="event-list-item">
+                <div class="event-title">{{ event.title }}</div>
+                <div class="event-time">{{ event.start_time }}-{{ event.end_time }}</div>
+                {% if item.weather_required %}
+                <div class="event-weather">Weather must be {{ item.weather_required }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+{% empty %}
+   <p>No events yet.</p>
+{% endfor %}

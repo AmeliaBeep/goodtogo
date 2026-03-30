@@ -1,13 +1,16 @@
 from django.shortcuts import render
+from django.views import View
 from .models import Event
 from .forms import EventForm
 from django.db.models.functions import TruncDate
+from django.http import JsonResponse, HttpResponseBadRequest
+from django.template.loader import render_to_string
 
 class EventListLookupMixin:
     def get_events():
         return Event.objects.all()
     
-    def build_events_by_day():
+    def build_events_by_day(self):
         queryset = Event.objects.annotate(start_date=TruncDate('start_time')).order_by('start_date', 'start_time')
 
         payload = {}
@@ -15,11 +18,11 @@ class EventListLookupMixin:
             day_key = str(event.start_date) if event.start_date else "No date"
             if day_key not in payload:
                 payload[day_key] = {
-                    "day": day_key,
-                    "items": []
+                    "date": day_key,
+                    "events": []
                 }
 
-            payload[day_key]["items"].append(
+            payload[day_key]["events"].append(
                 {
                     "id": event.id,
                     "title": event.title,
@@ -32,16 +35,30 @@ class EventListLookupMixin:
 
         return list(payload.values())
 
+class InitialEventListView(EventListLookupMixin, View):
+    template_name = "calendarapp/index.html"
 
-def view_home(request):
-    events = Event.objects.all()
-    events_by_day = EventListLookupMixin.build_events_by_day()
-    return render(
+    def get(self, request):
+        events_by_day = self.build_events_by_day()
+        return render(
         request, 
-        'calendarapp/home.html', 
+        self.template_name, 
         {
-            'events': events,
             'events_by_day': events_by_day
         }
     )
+
+class EventListView(EventListLookupMixin, View):
+    def get(self, request):
+        events_by_day = self.build_events_by_day()
+        events_by_day_html = render_to_string(
+            "calendarapp/includes/event_list.html",
+            {"events_by_day": events_by_day}  # Pass comments to the fragment
+        )
+
+        # Return HTML and success status
+        return JsonResponse({
+            "success": True,
+            "html": events_by_day_html
+        })
 

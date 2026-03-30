@@ -17,10 +17,14 @@
     <!-- Favicon -->
     <!-- Bootstrap 5 CSS -->
     <!-- Project CSS -->
+    <!-- Project JS -->
+    <script src="{% static 'js/changeView.js' %}" defer></script>
 </head>
 
 <body>
     <main>
+        <button id="list-view">List</button>
+        <button id="calendar-view">Calendar</button>
         {% block content %}
         {% endblock content %}
     </main>
