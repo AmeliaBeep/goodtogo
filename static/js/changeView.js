@@ -81,6 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
         try {
             let getData = new ContentData('list')
             getData.get()
+            contentContainer.setAttribute("data-current-view", "list")
         } catch (error) {
             console.log("oopsssssssss")
         }

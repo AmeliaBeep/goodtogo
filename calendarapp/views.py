@@ -29,24 +29,11 @@ class EventListLookupMixin:
                     "description": event.description,
                     "start_time": event.start_time,
                     "end_time": event.end_time,
-                    "weather_required": event.weather_required,
+                    "weather_required": event.get_weather_required_display(),
                 }
             )
 
         return list(payload.values())
-
-class InitialEventListView(EventListLookupMixin, View):
-    template_name = "calendarapp/index.html"
-
-    def get(self, request):
-        events_by_day = self.build_events_by_day()
-        return render(
-        request, 
-        self.template_name, 
-        {
-            'events_by_day': events_by_day
-        }
-    )
 
 class EventListView(EventListLookupMixin, View):
     def get(self, request):
@@ -64,3 +51,11 @@ class EventListView(EventListLookupMixin, View):
 
 class EventCalendarView(EventListLookupMixin, View):
     pass
+
+class InitialView(EventListLookupMixin, View):
+
+    def get(self, request):
+        return render(
+        request, 
+        "calendarapp/index.html",
+    )
