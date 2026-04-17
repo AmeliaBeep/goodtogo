@@ -1,15 +1,20 @@
-{% for day in events_by_day %}
-    <div class="day">
-        <h2>{{ day.day }}</h2>
+{% for day in events_by_day %}  
+    <div class="day accordian">
+        <h2>{{ day.date }}</h2>
         {% for event in day.events %}
-            <div class="event-list-item">
-                <div class="event-title">{{ event.title }}</div>
-                <div class="event-time">{{ event.start_time }}-{{ event.end_time }}</div>
-                {% if item.weather_required %}
-                <div class="event-weather">Weather must be {{ item.weather_required }}</div>
-                {% endif %}
+            <div class="event-list-item card w-75">
+                <div class="card-title d-flex justify-content-between">
+                    <div class="event-title">{{ event.title }}</div>
+                    {% if event.weather_required %}
+                    <div class="event-weather"><span class="badge rounded-pill bg-warning text-dark">{{ event.weather_required }}</span></div>{% endif %}
+                </div>
+                <div class="event-time card-subtitle">{{ event.start_time }}-{{ event.end_time }}</div>
+                {% if event.description %}
+                <div class="event-description">fff</div>{% endif %}
             </div>
+            <br>
         {% endfor %}
+    </div>
 {% empty %}
    <p>No events yet.</p>
 {% endfor %}

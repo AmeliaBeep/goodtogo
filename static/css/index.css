@@ -1,0 +1,7 @@
+:root {
+    --primary-green: #12a144; /* Primary orange used in logo and site styling */
+}
+
+.day h2 {
+    color: var(--primary-green);
+}

@@ -16,7 +16,11 @@
 
     <!-- Favicon -->
     <!-- Bootstrap 5 CSS -->
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
     <!-- Project CSS -->
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <!-- Project JS -->
     <script src="{% static 'js/changeView.js' %}" defer></script>
 </head>
